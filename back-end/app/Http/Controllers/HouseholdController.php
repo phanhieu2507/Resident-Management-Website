@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Household;
+use App\Models\Resident;
 use Illuminate\Http\Request;
 
 class HouseholdController extends Controller
 {
     public function index()
     {
-        $households = Household::all();
+        $households = Household::with('residents')->get();
         return response()->json($households);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Resident;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,4 +19,9 @@ class Household extends Model
         'household_size',
         'date_of_registration',
     ];
+
+    public function residents()
+    {
+        return $this->hasMany(Resident::class);
+    }
 }

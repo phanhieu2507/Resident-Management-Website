@@ -24,4 +24,8 @@ class Resident extends Model
         'previous_address',
         'relationship_with_head',
     ];
+    public function household()
+    {
+        return $this->belongsTo(Household::class);
+    }
 }
