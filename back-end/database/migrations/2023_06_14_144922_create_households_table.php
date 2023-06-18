@@ -19,7 +19,7 @@ class CreateHouseholdsTable extends Migration
             $table->string('street');
             $table->string('ward');
             $table->string('district');
-            $table->string('head_of_household');
+            $table->unsignedBigInteger('head_of_household');
             $table->integer('household_size');
             $table->date('date_of_registration');
             $table->timestamps();
