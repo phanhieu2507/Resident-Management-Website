@@ -96,5 +96,61 @@ class HouseholdController extends Controller
 
     return response()->json(null, 204);
     }
+
+    public function splitHousehold(Request $request)
+{
+    // Lấy thông tin từ yêu cầu gửi lên
+    $members = $request->input('members');
+    $newHouseholdData = $request->input('household');
+
+    // Cập nhật thông tin cho hộ khẩu cũ
+    $oldHouseholdSize = 0;
+
+    foreach ($members as $member) {
+        Resident::where('id', $member['id'])
+        ->update(['relationship_with_head' => $member['relationship']]);
+        if ($member['split'] === false) {
+            $oldHouseholdSize++;
+         if ($member['relationship'] === 'chủ hộ') {
+            $newHeadOfHousehold = Resident::find($member['id']);
+        }
+    } else if($member['split'] === true && $member['relationship'] === 'chủ hộ'){
+        $newHeadOfNewHouseholdId = $member['id'];
+    }
+}
+
+    if (isset($newHeadOfHousehold)) {
+        $oldHousehold = Household::find($newHeadOfHousehold->household_id);
+        $oldHousehold->head_of_household = $newHeadOfHousehold->id;
+        $oldHousehold->household_size = $oldHouseholdSize;
+        $oldHousehold->save();
+    }
+
+    // Tạo mới sổ hộ khẩu
+    $household = new Household();
+    $household->house_number = $newHouseholdData['house_number'];
+    $household->street = $newHouseholdData['street'];
+    $household->ward = $newHouseholdData['ward'];
+    $household->district = $newHouseholdData['district'];
+    $household->head_of_household = $newHeadOfNewHouseholdId;
+    $household->household_size = count($members) - $oldHouseholdSize;
+    $household->date_of_registration = $newHouseholdData['date_of_registration'];
+    $household->save();
+
+    // Tìm và cập nhật household_id cho các thành viên đã chọn
+    $memberIds = array_map(function ($member) {
+        if($member['split']===true) {
+            return $member['id'];
+        }
+    }, $members);
+    
+    Resident::whereIn('id', $memberIds)
+        ->update(['household_id' => $household->id]);
+    
+
+    // Trả về phản hồi thành công
+    return response()->json(['message' => 'Tách hộ khẩu thành công']);
+}
+
 }
 

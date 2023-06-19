@@ -10,6 +10,7 @@ const HouseholdTable = ({ data,fetchData }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedHousehold, setSelectedHousehold] = useState(null);
   const [splitModalVisible,setSplitModalVisible] = useState(false);
+  const [selectedHouseholdMember, setSelectedHouseholdMember] = useState(null);
   const columns = [
     {
       title: "ID",
@@ -75,6 +76,7 @@ const HouseholdTable = ({ data,fetchData }) => {
   ];
  
   const handleEditClick = (record) => {
+    setSelectedHouseholdMember(record.residents)
     setSelectedEditMethod(null);
     setEditMethodVisible(true);
   };
@@ -141,17 +143,37 @@ const HouseholdTable = ({ data,fetchData }) => {
   };
 
   const handleRowClick = (record) => {
+    fetchData()
     setSelectedHousehold(record);
     setModalVisible(true);
   };
-  const handleSplitHousehold = (selectedMembers) => {
-    // Thực hiện xử lý tách hộ khẩu và tạo sổ hộ khẩu mới với danh sách thành viên đã chọn
-    // Lưu ý: Bạn cần thực hiện các xử lý tương ứng với yêu cầu của bạn ở đây
-    console.log("Danh sách thành viên đã chọn:", selectedMembers);
-    // Cập nhật lại danh sách hộ khẩu và hiển thị thông báo thành công
-    // ...
+  const handleSplitHousehold = (data) => {
+    axios
+      .post("/households/split", data)
+      .then((response) => {
+        // Xử lý phản hồi từ API sau khi tách hộ khẩu thành công
+        console.log(response.data);
+        // Hiển thị thông báo thành công
+        notification.success({
+          message: "Tách hộ khẩu thành công",
+          duration: 3, // Thời gian hiển thị thông báo (tính bằng giây)
+        });
+        // Thực hiện các hành động cần thiết sau khi tách hộ khẩu thành công
+        setSplitModalVisible(false);
+        fetchData();
+      })
+      .catch((error) => {
+        // Xử lý lỗi trong quá trình gửi yêu cầu hoặc nhận phản hồi từ API
+        console.error(error);
+        // Hiển thị thông báo lỗi
+        notification.error({
+          message: "Lỗi khi tách hộ khẩu",
+          description: "Đã xảy ra lỗi trong quá trình tách hộ khẩu. Vui lòng thử lại.",
+          duration: 5, // Thời gian hiển thị thông báo (tính bằng giây)
+        });
+        // Thực hiện các hành động cần thiết khi xảy ra lỗi
+      });
   };
-
   return (
     <>
       <Table
@@ -193,7 +215,7 @@ const HouseholdTable = ({ data,fetchData }) => {
         </Button>
       </Modal>
       <SplitHouseholdModal
-        householdMembers={data}
+        householdMembers={selectedHouseholdMember}
         visible={splitModalVisible}
         onCancel={() => setSplitModalVisible(false)}
         onSplit={handleSplitHousehold}

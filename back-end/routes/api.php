@@ -25,6 +25,7 @@ Route::apiResource('residents', ResidentController::class);
 Route::apiResource('changes', ChangeController::class);
 Route::apiResource('feedbacks', FeedbackController::class);
 Route::apiResource('feedback_responses', Feedback_responseController::class);
+Route::post('/households/split', [HouseholdController::class, 'splitHousehold']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
