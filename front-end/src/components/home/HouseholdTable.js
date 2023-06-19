@@ -4,13 +4,16 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "../../api/axios";
 import HouseholdDetailsModal from "../../components/home/HouseholdDetailsModal";
 import SplitHouseholdModal from "./SplitHouseholdModal";
+import UpdateHouseholdModal from "./UpdateHouseholdModal";
 const HouseholdTable = ({ data,fetchData }) => {
   const [selectedEditMethod, setSelectedEditMethod] = useState(null);
   const [editMethodVisible, setEditMethodVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedHousehold, setSelectedHousehold] = useState(null);
   const [splitModalVisible,setSplitModalVisible] = useState(false);
+  const [updateModalVisible,setUpdateModalVisible] = useState(false);
   const [selectedHouseholdMember, setSelectedHouseholdMember] = useState(null);
+  const [selectedHouseholdInfo, setSelectedHouseholdInfo] = useState(null);
   const columns = [
     {
       title: "ID",
@@ -77,6 +80,7 @@ const HouseholdTable = ({ data,fetchData }) => {
  
   const handleEditClick = (record) => {
     setSelectedHouseholdMember(record.residents)
+    setSelectedHouseholdInfo(record)
     setSelectedEditMethod(null);
     setEditMethodVisible(true);
   };
@@ -93,6 +97,7 @@ const HouseholdTable = ({ data,fetchData }) => {
           break;
         case "changeHouseholdInfo":
           // Xử lý thay đổi thông tin sổ
+          setUpdateModalVisible(true);
           break;
         case "changeResidentInfo":
           // Xử lý thay đổi thông tin nhân khẩu
@@ -174,6 +179,38 @@ const HouseholdTable = ({ data,fetchData }) => {
         // Thực hiện các hành động cần thiết khi xảy ra lỗi
       });
   };
+  const handleUpdateHousehold = (data) => {
+    // Lấy ID của hộ khẩu
+    const householdId = selectedHouseholdInfo.id;
+  
+    // Gửi yêu cầu PUT đến API để cập nhật thông tin hộ khẩu
+    axios
+      .put(`/households/${householdId}`, data)
+      .then((response) => {
+        // Xử lý phản hồi từ API sau khi cập nhật thành công
+        console.log(response.data);
+        // Hiển thị thông báo thành công
+        notification.success({
+          message: "Cập nhật hộ khẩu thành công",
+          duration: 3, // Thời gian hiển thị thông báo (tính bằng giây)
+        });
+        // Thực hiện các hành động cần thiết sau khi cập nhật thành công
+        setUpdateModalVisible(false);
+        fetchData();
+      })
+      .catch((error) => {
+        // Xử lý lỗi trong quá trình gửi yêu cầu hoặc nhận phản hồi từ API
+        console.error(error);
+        // Hiển thị thông báo lỗi
+        notification.error({
+          message: "Lỗi khi cập nhật hộ khẩu",
+          description: "Đã xảy ra lỗi trong quá trình cập nhật hộ khẩu. Vui lòng thử lại.",
+          duration: 5, // Thời gian hiển thị thông báo (tính bằng giây)
+        });
+        // Thực hiện các hành động cần thiết khi xảy ra lỗi
+      });
+  };
+  
   return (
     <>
       <Table
@@ -219,6 +256,13 @@ const HouseholdTable = ({ data,fetchData }) => {
         visible={splitModalVisible}
         onCancel={() => setSplitModalVisible(false)}
         onSplit={handleSplitHousehold}
+      />
+      <UpdateHouseholdModal
+      household={selectedHouseholdInfo}
+      visible={updateModalVisible}
+      onCancel={() => setUpdateModalVisible(false)}
+      onSplit={handleSplitHousehold}
+      onUpdate={handleUpdateHousehold}
       />
     </>
   );
