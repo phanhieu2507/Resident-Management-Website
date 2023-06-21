@@ -1,16 +1,18 @@
 import { Layout, Menu } from 'antd';
 import { UserOutlined, FormOutlined, CommentOutlined, MessageOutlined, BarChartOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 const { Header } = Layout;
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <Header>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-        <Menu.Item key="1" icon={<UserOutlined />}>
+        <Menu.Item key="1" icon={<UserOutlined />} onClick={() => navigate('/household')}>
           Hộ khẩu
         </Menu.Item>
-        <Menu.Item key="2" icon={<UserOutlined />}>
+        <Menu.Item key="2" icon={<UserOutlined />} onClick={() => navigate('/population') }>
           Nhân khẩu
         </Menu.Item>
         <Menu.Item key="3" icon={<FormOutlined />}>

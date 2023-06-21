@@ -5,7 +5,7 @@ import axios from "../../api/axios";
 import HouseholdDetailsModal from "../../components/home/HouseholdDetailsModal";
 import SplitHouseholdModal from "./SplitHouseholdModal";
 import UpdateHouseholdModal from "./UpdateHouseholdModal";
-const HouseholdTable = ({ data,fetchData }) => {
+const PopulationTable = ({ data,fetchData }) => {
   const [selectedEditMethod, setSelectedEditMethod] = useState(null);
   const [editMethodVisible, setEditMethodVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -16,7 +16,7 @@ const HouseholdTable = ({ data,fetchData }) => {
   const [selectedHouseholdInfo, setSelectedHouseholdInfo] = useState(null);
   const columns = [
     {
-      title: "IDNhau_khau",
+      title: "IDHo_khau",
       dataIndex: "id",
       key: "id",
     },
@@ -268,4 +268,4 @@ const HouseholdTable = ({ data,fetchData }) => {
   );
 };
 
-export default HouseholdTable;
+export default PopulationTable;
