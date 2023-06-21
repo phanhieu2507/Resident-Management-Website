@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Table, notification, Modal,Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "../../api/axios";
-import HouseholdDetailsModal from "../../components/home/HouseholdDetailsModal";
+import HouseholdDetailsModal from "./HouseholdDetailsModal";
 import SplitHouseholdModal from "./SplitHouseholdModal";
 import UpdateHouseholdModal from "./UpdateHouseholdModal";
 const PopulationTable = ({ data,fetchData }) => {

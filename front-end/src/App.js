@@ -3,7 +3,7 @@ import React from 'react';
 import { Route,Routes } from 'react-router-dom';
 import Home from './pages/home/home';
 import CreateHousehold from './pages/home/create/create';
-import PopulationTable from './components/home/PopulationTabble';
+import PopulationTable from './components/home/PopulationTable';
 import Navbar from './components/navbar';
 import HouseholdTable from './components/home/HouseholdTable';
 function App() {
