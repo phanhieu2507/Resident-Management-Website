@@ -5,7 +5,22 @@ import axios from "../../api/axios";
 import HouseholdDetailsModal from "./HouseholdDetailsModal";
 import SplitHouseholdModal from "./SplitHouseholdModal";
 import UpdateHouseholdModal from "./UpdateHouseholdModal";
-const PopulationTable = ({ data,fetchData }) => {
+
+
+
+const PopulationTable = ({ fetchData }) => {
+  const data=[
+    {
+      id: 1, 
+      house_number:"12",
+      name:"12",
+      ward:"12",
+      district:"12",
+      head_of_household:"12",
+  
+  
+    }
+  ]
   const [selectedEditMethod, setSelectedEditMethod] = useState(null);
   const [editMethodVisible, setEditMethodVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -16,44 +31,34 @@ const PopulationTable = ({ data,fetchData }) => {
   const [selectedHouseholdInfo, setSelectedHouseholdInfo] = useState(null);
   const columns = [
     {
-      title: "IDHo_khau",
+      title: "STT",
       dataIndex: "id",
       key: "id",
     },
     {
-      title: "Số Nhà",
+      title: "Mã hộ",
       dataIndex: "house_number",
       key: "house_number",
     },
     {
-      title: "Đường",
-      dataIndex: "street",
-      key: "street",
+      title: "Họ và tên",
+      dataIndex: "name",
+      key: "name",
     },
     {
-      title: "Phường/Xã",
+      title:"Địa chỉ hiện tại",
       dataIndex: "ward",
       key: "ward",
     },
     {
-      title: "Quận/Huyện",
+      title: "Địa chỉ trước đây",
       dataIndex: "district",
       key: "district",
     },
     {
-      title: "Chủ Hộ",
+      title: "Quan hệ với chủ hộ",
       dataIndex: "head_of_household",
       key: "head_of_household",
-    },
-    {
-      title: "Kích Thước Hộ Gia Đình",
-      dataIndex: "household_size",
-      key: "household_size",
-    },
-    {
-      title: "Ngày Đăng Ký Hộ Khẩu",
-      dataIndex: "date_of_registration",
-      key: "date_of_registration",
     },
     {
       title: "Hành động",
@@ -111,21 +116,21 @@ const PopulationTable = ({ data,fetchData }) => {
   
   const handleDelete = (record) => {
     Modal.confirm({
-      title: "Xóa hộ khẩu",
-      content: "Bạn có chắc chắn muốn xóa hộ khẩu này?",
+      title: "Xóa nhân khẩu",
+      content: "Bạn có chắc chắn muốn xóa nhân khẩu này?",
       okText: "Đồng ý",
       okButtonProps: { className: "bg-red-500 hover:bg-red-600" },
       cancelText: "Hủy",
       onOk: async () => {
         try {
           // Gửi yêu cầu DELETE đến API để xóa hộ khẩu
-          const response = await axios.delete(`/households/${record.id}`);
+          const response = await axios.delete(`/population/${record.id}`);
 
           // Kiểm tra và xử lý kết quả
           if (response.status === 204) {
             // Xóa thành công, có thể thực hiện các hành động phụ sau đây
             notification.success({
-              message: "Xóa hộ khẩu thành công",
+              message: "Xóa nhân khẩu thành công",
             });
 
             // Refresh danh sách hộ khẩu
@@ -211,8 +216,10 @@ const PopulationTable = ({ data,fetchData }) => {
       });
   };
   
+  
   return (
     <>
+    
       <Table
         columns={columns}
         dataSource={data}
