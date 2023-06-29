@@ -24,7 +24,6 @@ class CreateHouseholdsTable extends Migration
             $table->date('date_of_registration');
             $table->timestamps();
         });
-        
     }
 
     /**

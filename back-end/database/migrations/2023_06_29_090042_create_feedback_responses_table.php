@@ -22,7 +22,6 @@ class CreateFeedbackResponsesTable extends Migration
             $table->date('response_date');
             $table->timestamps();
         });
-        
     }
 
     /**

@@ -15,7 +15,8 @@ class CreateResidentsTable extends Migration
     {
         Schema::create('residents', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('household_id');
+            $table->unsignedInteger('household_id');
+            $table->foreign('household_id')->references('id')->on('households');
             $table->string('full_name');
             $table->string('gender');
             $table->date('date_of_birth');
@@ -32,9 +33,8 @@ class CreateResidentsTable extends Migration
             $table->string('relationship_with_head');
             $table->timestamps();
 
-            $table->foreign('household_id')->references('id')->on('households');
+          
         });
-        
     }
 
     /**

@@ -20,6 +20,8 @@ class CreateFeedbacksTable extends Migration
             $table->date('date_submitted');
             $table->string('category');
             $table->string('status');
+ 	        $table->string('phone_number');
+            $table->string('address');
             $table->timestamps();
         });
     }
