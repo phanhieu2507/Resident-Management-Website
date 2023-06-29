@@ -16,13 +16,12 @@ class CreateFeedbacksTable extends Migration
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('submitter');
-            $table->text('content');   
+            $table->text('content');
             $table->date('date_submitted');
             $table->string('category');
             $table->string('status');
             $table->timestamps();
         });
-        
     }
 
     /**
