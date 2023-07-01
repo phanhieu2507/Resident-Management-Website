@@ -7,6 +7,7 @@ import {
 import Navbar from "../../components/navbar";
 import HouseholdTable from "../../components/home/HouseholdTable";
 import { useNavigate } from "react-router-dom";
+import Resident from "./Resident";
 const Home = () => {
 
   const [data, setData] = useState([]);
@@ -14,7 +15,7 @@ const Home = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("/households"); // Thay đổi đường dẫn API tương ứng
+      const response = await axios.get("/residents"); // Thay đổi đường dẫn API tương ứng
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -30,16 +31,16 @@ const Home = () => {
       {/* <Navbar /> */}
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold">Danh sách hộ khẩu</h1>
+          <h1 className="text-2xl font-bold">Danh sách nhân khẩu</h1>
           <Button
             className="bg-blue-500"
             type="primary"
-            onClick={() => navigate('/createhousehold') }
+            onClick={() => navigate('/createresident') }
           >
-            Tạo mới hộ khẩu
+            Tạo mới nhân khẩu
           </Button>
         </div>
-        <HouseholdTable data={data} fetchData={fetchData} />
+        <Resident data={data} fetchData={fetchData} />
 
       </div>
     </>
