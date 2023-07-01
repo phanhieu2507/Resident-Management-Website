@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Typography } from 'antd';
+import { Card, Modal, Typography } from 'antd';
 
 const { Text } = Typography;
 
@@ -12,25 +12,32 @@ const DetailModal = ({ feedback, visible, onClose }) => {
       footer={null}
     >
       {feedback && (
-        <div>
-          <Text strong>Họ tên: </Text>
-          <Text>{feedback.submitter}</Text>
-          <br />
-          <Text strong>Số điện thoại: </Text>
-          <Text>{feedback.phone_number}</Text>
-          <br />
-          <Text strong>Địa chỉ: </Text>
-          <Text>{feedback.address}</Text>
-          <br />
-          <Text strong>Ngày gửi: </Text>
-          <Text>{feedback.date_submitted}</Text>
-          <br />
-          <Text strong>Nội dung: </Text>
-          <Text>{feedback.content}</Text>
-          <br />
-          <Text strong>Trạng thái: </Text>
-          <Text>{feedback.status}</Text>
-        </div>
+        <Card>
+          <div className="mb-4">
+            <Text strong>Họ tên: </Text>
+            <Text>{feedback.submitter}</Text>
+          </div>
+          <div className="mb-4">
+            <Text strong>Số điện thoại: </Text>
+            <Text>{feedback.phone_number}</Text>
+          </div>
+          <div className="mb-4">
+            <Text strong>Địa chỉ: </Text>
+            <Text>{feedback.address}</Text>
+          </div>
+          <div className="mb-4">
+            <Text strong>Ngày gửi: </Text>
+            <Text>{feedback.date_submitted}</Text>
+          </div>
+          <div className="mb-4">
+            <Text strong>Nội dung: </Text>
+            <Text>{feedback.content}</Text>
+          </div>
+          <div className="mb-4">
+            <Text strong>Trạng thái: </Text>
+            <Text>{feedback.status}</Text>
+          </div>
+        </Card>
       )}
     </Modal>
   );

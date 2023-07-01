@@ -8,6 +8,7 @@ import FeedbackResponse from './components/home/FeedbackResponse';
 import Navbar from './components/navbar';
 import ResidentTable from './components/home/ResidentTable';
 import CreateResident from './pages/home/create/createResident';
+import CreateFeedback from './pages/feedback/create/create';
 function App() {
   return (
     <div>
@@ -19,6 +20,7 @@ function App() {
        <Route path="/feedback" element={<Feedback/>}/>
        <Route path="/feedback_responses" element={<FeedbackResponse/>}/>
        <Route path="/resident" element={<ResidentTable/>}/>
+       <Route path="create_feedback" element={<CreateFeedback/>}/>
  </Routes>
  </div>
   );

@@ -16,5 +16,8 @@ class Feedback extends Model
         'date_submitted',
         'category',
         'status',
+        'phone_number',
+        'address',
     ];
+    
 }
