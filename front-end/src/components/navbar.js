@@ -1,6 +1,6 @@
 import { Layout, Menu } from 'antd';
 import { UserOutlined, FormOutlined, CommentOutlined, MessageOutlined, BarChartOutlined } from '@ant-design/icons';
-
+import { Link } from 'react-router-dom';
 const { Header } = Layout;
 
 const Navbar = () => {
@@ -8,7 +8,7 @@ const Navbar = () => {
     <Header>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
         <Menu.Item key="1" icon={<UserOutlined />}>
-          Hộ khẩu
+          <Link to="/">Hộ khẩu</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<UserOutlined />}>
           Nhân khẩu
@@ -17,7 +17,7 @@ const Navbar = () => {
           Thay đổi
         </Menu.Item>
         <Menu.Item key="4" icon={<CommentOutlined />}>
-          Ý kiến
+        <Link to="/feedback">Ý kiến</Link>
         </Menu.Item>
         <Menu.Item key="5" icon={<MessageOutlined />}>
           Phản hồi

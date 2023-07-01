@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal } from 'antd';
+import { Modal, notification } from 'antd';
 import axios from "../../api/axios";
 
 const DeleteFeedbackModal = ({ fetchFeedBacks, visible, feedback, onCancel, onDeleteSuccess }) => {
@@ -15,9 +15,23 @@ const DeleteFeedbackModal = ({ fetchFeedBacks, visible, feedback, onCancel, onDe
       setLoading(false);
       fetchFeedBacks();
       onDeleteSuccess();
+
+      // Hiển thị thông báo thành công và tự động biến mất sau 3 giây
+      notification.success({
+        message: 'Xóa thành công',
+        duration: 2,
+        closable: false
+      });
     } catch (error) {
       console.error('Error deleting feedback:', error);
       setLoading(false);
+
+      // Hiển thị thông báo không thành công và tự động biến mất sau 3 giây
+      notification.error({
+        message: 'Xóa không thành công',
+        duration: 2,
+        closable: false
+      });
     }
   };
 
@@ -30,6 +44,8 @@ const DeleteFeedbackModal = ({ fetchFeedBacks, visible, feedback, onCancel, onDe
       okText="Xóa"
       cancelText="Hủy"
       confirmLoading={loading}
+      okButtonProps={{ className: 'bg-red-500 text-white' }} // Thêm lớp CSS cho nút Xóa và đặt màu chữ là trắng
+      // cancelButtonProps={{ className: 'bg-gray-300' }} // Thêm lớp CSS cho nút Hủy
     >
       <p>Bạn có chắc chắn muốn xóa phản hồi?</p>
     </Modal>

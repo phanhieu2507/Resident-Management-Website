@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Select, Button } from 'antd';
+import { Modal, Form, Input, Select, Button, notification, DatePicker } from 'antd';
 import axios from "../../api/axios";
+import moment from 'moment';
 
 const { Option } = Select;
 
@@ -14,18 +15,36 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
       const values = await form.validateFields();
       setLoading(true);
 
-      // Gửi yêu cầu cập nhật thông tin phản hồi tới API
-      await axios.put(`/feedbacks/${feedback.id}`, values); // Điều chỉnh endpoint API tương ứng
+      // Format the date value to "YYYY-MM-DD"
+      values.date_submitted = moment(values.date_submitted).format('YYYY-MM-DD');
+
+      // Send the update request to the API
+      await axios.put(`/feedbacks/${feedback.id}`, values);
 
       setLoading(false);
       onClose();
 
-      // Cập nhật thông tin feedback đã được cập nhật
-      setUpdatedFeedback({ ...feedback, ...values });
+      // Update the feedback information
+      const updatedFeedback = { ...feedback, ...values };
+      setUpdatedFeedback(updatedFeedback);
       fetchFeedbacks();
+
+      // Display success notification
+      notification.success({
+        message: 'Cập nhật thành công',
+        duration: 2,
+        closable: false
+      });
     } catch (error) {
       console.error('Error updating feedback:', error);
       setLoading(false);
+
+      // Display error notification
+      notification.error({
+        message: 'Cập nhật không thành công',
+        duration: 2,
+        closable: false
+      });
     }
   };
 
@@ -43,7 +62,13 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
         <Button key="cancel" onClick={handleCancel}>
           Hủy bỏ
         </Button>,
-        <Button key="submit" type="primary" loading={loading} onClick={handleSubmit}>
+        <Button
+          key="submit"
+          type="primary"
+          className="bg-blue-500 hover:bg-blue-600"
+          loading={loading}
+          onClick={handleSubmit}
+        >
           Cập nhật
         </Button>,
       ]}
@@ -58,6 +83,7 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
           content: updatedFeedback.content,
           category: updatedFeedback.category,
           status: updatedFeedback.status,
+          date_submitted: moment(updatedFeedback.date_submitted, 'YYYY-MM-DD'),
         }}
       >
         <Form.Item
@@ -70,7 +96,7 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Nhập họ tên" />
         </Form.Item>
 
         <Form.Item
@@ -83,7 +109,7 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Nhập địa chỉ" />
         </Form.Item>
 
         <Form.Item
@@ -96,10 +122,22 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Nhập số điện thoại" />
         </Form.Item>
 
-      
+        <Form.Item
+          name="date_submitted"
+          label="Ngày gửi"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn ngày gửi",
+            },
+          ]}
+        >
+          <DatePicker format="YYYY-MM-DD" />
+        </Form.Item>
+
         <Form.Item
           name="content"
           label="Nội dung"
@@ -110,7 +148,7 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
             },
           ]}
         >
-          <Input.TextArea />
+          <Input.TextArea placeholder="Nhập nội dung" />
         </Form.Item>
 
         <Form.Item
@@ -123,7 +161,7 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
             },
           ]}
         >
-          <Input />
+          <Input placeholder="Nhập phân loại" />
         </Form.Item>
 
         <Form.Item
@@ -136,11 +174,11 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
             },
           ]}
         >
-          <Select>
+          <Select placeholder="Chọn trạng thái">
             <Option value="Đã xử lý">Đã xử lý</Option>
             <Option value="Đang xử lý">Đang xử lý</Option>
             <Option value="Đã tiếp nhận">Đã tiếp nhận</Option>
-            {/* Các trạng thái khác */}
+            {/* Other status options */}
           </Select>
         </Form.Item>
       </Form>
