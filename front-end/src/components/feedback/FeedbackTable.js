@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Space, message} from 'antd';
+import { Table, Space, message, Button} from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import axios from "../../api/axios";
 import DetailModal from './DetailFeedback'
@@ -12,6 +12,8 @@ const FeedbackTable = () => {
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+
   const fetchFeedbacks = async () => {
     try {
       const response = await axios.get('/feedbacks'); // Điều chỉnh endpoint API tương ứng
@@ -68,7 +70,7 @@ const FeedbackTable = () => {
 
   const columns = [
     {
-      title: 'STT',
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
     },
@@ -135,7 +137,7 @@ const FeedbackTable = () => {
 
   return (
     <>
-    <Table
+        <Table
         dataSource={feedbacks}
         columns={columns}
         onRow={(record) => ({
