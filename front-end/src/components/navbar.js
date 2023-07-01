@@ -1,27 +1,28 @@
 import { Layout, Menu } from 'antd';
 import { UserOutlined, FormOutlined, CommentOutlined, MessageOutlined, BarChartOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 const { Header } = Layout;
 
 const Navbar = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
   return (
     <Header>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-        <Menu.Item key="1" icon={<UserOutlined />} onClick={() => navigate('/')}>
+        <Menu.Item key="1" icon={<UserOutlined />} onClick={() => navigate('/') }>
           Hộ khẩu
         </Menu.Item>
-        <Menu.Item key="2" icon={<UserOutlined />} onClick={() => navigate('/resident')}>
+        <Menu.Item key="2" icon={<UserOutlined />}>
           Nhân khẩu
         </Menu.Item>
-        <Menu.Item key="3" icon={<FormOutlined />}>
+        <Menu.Item key="3" icon={<FormOutlined />} onClick={() =>navigate('/change') }>
           Thay đổi
         </Menu.Item>
         <Menu.Item key="4" icon={<CommentOutlined />}>
-        <Link to="/feedback">Ý kiến</Link>
+          Ý kiến
         </Menu.Item>
-        <Menu.Item key="5" icon={<MessageOutlined />} onClick={() => navigate('/feedback_responses')}>
+        <Menu.Item key="5" icon={<MessageOutlined />}>
           Phản hồi
         </Menu.Item>
         <Menu.Item key="6" icon={<BarChartOutlined />}>

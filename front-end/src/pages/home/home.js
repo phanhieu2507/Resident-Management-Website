@@ -27,14 +27,14 @@ const Home = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Danh sách hộ khẩu</h1>
           <Button
             className="bg-blue-500"
             type="primary"
-            onClick={() => navigate('/createhousehold') }
+            onClick={() => navigate('/create') }
           >
             Tạo mới hộ khẩu
           </Button>
