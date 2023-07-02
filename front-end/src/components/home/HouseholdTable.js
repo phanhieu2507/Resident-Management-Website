@@ -5,6 +5,7 @@ import axios from "../../api/axios";
 import HouseholdDetailsModal from "../../components/home/HouseholdDetailsModal";
 import SplitHouseholdModal from "./SplitHouseholdModal";
 import UpdateHouseholdModal from "./UpdateHouseholdModal";
+import {  useNavigate } from "react-router-dom";
 const HouseholdTable = ({ data,fetchData }) => {
   const [selectedEditMethod, setSelectedEditMethod] = useState(null);
   const [editMethodVisible, setEditMethodVisible] = useState(false);
@@ -14,6 +15,7 @@ const HouseholdTable = ({ data,fetchData }) => {
   const [updateModalVisible,setUpdateModalVisible] = useState(false);
   const [selectedHouseholdMember, setSelectedHouseholdMember] = useState(null);
   const [selectedHouseholdInfo, setSelectedHouseholdInfo] = useState(null);
+  const navigate = useNavigate();
   const columns = [
     {
       title: "ID",
@@ -101,6 +103,7 @@ const HouseholdTable = ({ data,fetchData }) => {
           break;
         case "changeResidentInfo":
           // Xử lý thay đổi thông tin nhân khẩu
+          navigate('/residents')
           break;
         default:
           break;

@@ -24,7 +24,7 @@ const HouseholdDetailsModal = ({ selectedHousehold, modalVisible, handleModalClo
         <p>Đường: {selectedHousehold?.street}</p>
         <p>Phường/Xã: {selectedHousehold?.ward}</p>
         <p>Quận/Huyện: {selectedHousehold?.district}</p>
-        <p>Chủ Hộ: {selectedHousehold?.residents?.find((resident) => resident.id === selectedHousehold?.head_of_household)?.full_name}</p>
+        <p>Chủ Hộ: {selectedHousehold?.residents?.find((resident) => resident.id == selectedHousehold?.head_of_household)?.full_name}</p>
         <p>Kích Thước Hộ Gia Đình: {selectedHousehold?.household_size}</p>
         <p>Ngày Đăng Ký Hộ Khẩu: {selectedHousehold?.date_of_registration}</p>
       </Card>

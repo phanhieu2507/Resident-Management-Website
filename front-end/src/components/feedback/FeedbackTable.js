@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Space, message, Button, Tooltip, Select} from 'antd';
+import { Table, Space, message, Button, Tooltip, Select, Checkbox} from 'antd';
 import { EditOutlined, DeleteOutlined, CommentOutlined } from '@ant-design/icons';
 import axios from "../../api/axios";
 import DetailModal from './DetailFeedback'
@@ -151,6 +151,24 @@ const FeedbackTable = () => {
         { text: 'Đã tiếp nhận', value: 'Đã tiếp nhận' },
       ],
       onFilter: (value, record) => record.status === value,
+      defaultFilteredValue: ['Đang xử lý'],
+      filterDropdown: ({ setSelectedKeys, confirm }) => (
+        <div className="p-4">
+          <Checkbox.Group
+            className="flex flex-col"
+            options={[
+              { label: 'Đã xử lý', value: 'Đã xử lý' },
+              { label: 'Đang xử lý', value: 'Đang xử lý' },
+              { label: 'Đã tiếp nhận', value: 'Đã tiếp nhận' },
+            ]}
+            defaultValue={['Đang xử lý']}
+            onChange={(checkedValues) => {
+              setSelectedKeys(checkedValues);
+              confirm();
+            }}
+          />
+        </div>
+      ),
     },
     {
       title: 'Hành động',
