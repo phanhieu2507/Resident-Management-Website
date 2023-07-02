@@ -3,12 +3,12 @@ import { Table, notification, Modal,Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "../../api/axios";
 import ResidentDetailsModal from "../resident/ResidentDetailModal"
-// import UpdateResidentModal from "../home/UpdateResidentModal";
+import UpdateResidentModal from "../resident/UpdateResidentModal";
 const ResidentTable = ({ data,fetchData }) => {
   const [editMethodVisible, setEditMethodVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedResident, setSelectedResident] = useState(null);
-  const [splitModalVisible,setSplitModalVisible] = useState(false);
+  
   const [updateModalVisible,setUpdateModalVisible] = useState(false);
 
   const [selectedResidentInfo, setSelectedResidentInfo] = useState(null);
@@ -100,7 +100,7 @@ const ResidentTable = ({ data,fetchData }) => {
  
   const handleEditClick = (record) => {
     setSelectedResidentInfo(record)
-    setEditMethodVisible(true);
+    setUpdateModalVisible(true)
   };
 
 
@@ -148,40 +148,13 @@ const ResidentTable = ({ data,fetchData }) => {
     setSelectedResident(record);
     setModalVisible(true);
   };
-  const handleSplitResident = (data) => {
-    axios
-      .post("/Residents/split", data)
-      .then((response) => {
-        // Xử lý phản hồi từ API sau khi tách hộ khẩu thành công
-        console.log(response.data);
-        // Hiển thị thông báo thành công
-        notification.success({
-          message: "Tách hộ khẩu thành công",
-          duration: 3, // Thời gian hiển thị thông báo (tính bằng giây)
-        });
-        // Thực hiện các hành động cần thiết sau khi tách hộ khẩu thành công
-        setSplitModalVisible(false);
-        fetchData();
-      })
-      .catch((error) => {
-        // Xử lý lỗi trong quá trình gửi yêu cầu hoặc nhận phản hồi từ API
-        console.error(error);
-        // Hiển thị thông báo lỗi
-        notification.error({
-          message: "Lỗi khi tách hộ khẩu",
-          description: "Đã xảy ra lỗi trong quá trình tách hộ khẩu. Vui lòng thử lại.",
-          duration: 5, // Thời gian hiển thị thông báo (tính bằng giây)
-        });
-        // Thực hiện các hành động cần thiết khi xảy ra lỗi
-      });
-  };
   const handleUpdateResident = (data) => {
     // Lấy ID của hộ khẩu
     const ResidentId = selectedResidentInfo.id;
   
     // Gửi yêu cầu PUT đến API để cập nhật thông tin hộ khẩu
     axios
-      .put(`/Residents/${ResidentId}`, data)
+      .put(`/residents/${ResidentId}`, data)
       .then((response) => {
         // Xử lý phản hồi từ API sau khi cập nhật thành công
         console.log(response.data);
@@ -221,13 +194,12 @@ const ResidentTable = ({ data,fetchData }) => {
         modalVisible={modalVisible}
         handleModalClose={() => setModalVisible(false)}
       />
-      {/* <UpdateResidentModal
-      Resident={selectedResidentInfo}
+      <UpdateResidentModal
+      resident={selectedResidentInfo}
       visible={updateModalVisible}
       onCancel={() => setUpdateModalVisible(false)}
-      onSplit={handleSplitResident}
       onUpdate={handleUpdateResident}
-      /> */}
+      />
     </>
   );
 };

@@ -25,7 +25,7 @@ function App() {
        <Route path="/feedback" element={<Feedback/>}/>
        <Route path="/residents" element={<Resident/>}/>
        <Route path="create_feedback" element={<CreateFeedback/>}/>
-       <Route path="/change" element= {<Change/>}/>
+       <Route path="/changes" element= {<Change/>}/>
  </Routes>
  </div>
   );

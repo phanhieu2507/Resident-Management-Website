@@ -10,7 +10,7 @@ const Navbar = () => {
     <Header>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
         <Menu.Item key="1" icon={<UserOutlined />}>
-        <Link to="/">Hộ khẩu</Link>
+        <Link to="/home">Hộ khẩu</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<UserOutlined />}>
         <Link to="/residents">Nhân khẩu</Link>
