@@ -9,14 +9,14 @@ const Navbar = () => {
   return (
     <Header>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-        <Menu.Item key="1" icon={<UserOutlined />} onClick={() => navigate('/')}>
-          Hộ khẩu
+        <Menu.Item key="1" icon={<UserOutlined />}>
+        <Link to="/">Hộ khẩu</Link>
         </Menu.Item>
-        <Menu.Item key="2" icon={<UserOutlined />} onClick={() => navigate('/resident')}>
-          Nhân khẩu
+        <Menu.Item key="2" icon={<UserOutlined />}>
+        <Link to="/residents">Nhân khẩu</Link>
         </Menu.Item>
         <Menu.Item key="3" icon={<FormOutlined />}>
-          Thay đổi
+        <Link to="/changes">Thay đổi</Link>
         </Menu.Item>
         <Menu.Item key="4" icon={<CommentOutlined />}>
         <Link to="/feedback">Ý kiến</Link>

@@ -3,7 +3,7 @@ import { Modal, Form, Input, DatePicker, Button, notification } from "antd";
 import moment from "moment";
 import axios from "../../api/axios";
 
-const CreateHouseholdModal = ({ visible, onClose }) => {
+const CreateResidentModal = ({ visible, onClose }) => {
   const [form] = Form.useForm();
   const [members, setMembers] = useState([]);
   const handleCreateFormSubmit = async (values) => {
@@ -159,4 +159,4 @@ const CreateHouseholdModal = ({ visible, onClose }) => {
   );
 };
 
-export default CreateHouseholdModal;
+export default CreateResidentModal;
