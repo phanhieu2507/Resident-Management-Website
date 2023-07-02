@@ -1,12 +1,14 @@
 import React from 'react';
 import FeedbackTable from '../../components/feedback/FeedbackTable';
 import CreateFeedbackPage from '../../components/feedback/CreateFeedbackModal';
+import Navbar from '../../components/navbar'
 import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 
 const Feedback = () => {
   return (
     <>
+      <Navbar />
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Danh sách ý kiến/phản ánh</h1>

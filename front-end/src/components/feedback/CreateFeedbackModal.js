@@ -120,7 +120,6 @@ const CreateFeedbackModal = () => {
           ]}
         >
           <Select>
-            <Option value="Đã xử lý">Đã xử lý</Option>
             <Option value="Đang xử lý">Đang xử lý</Option>
             <Option value="Đã tiếp nhận">Đã tiếp nhận</Option>
             {/* Các trạng thái khác */}

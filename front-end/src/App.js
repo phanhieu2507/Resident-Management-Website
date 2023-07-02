@@ -11,6 +11,8 @@ import CreateFeedback from './pages/feedback/create/create';
 import Change from './pages/change/change';
 import NotFound from './pages/404/404';
 import Login from './pages/login/login';
+import FeedbackResponse from './pages/feedback_response/feedback_response';
+
 function App() {
   return (
     <div>
@@ -26,6 +28,7 @@ function App() {
        <Route path="/residents" element={<Resident/>}/>
        <Route path="create_feedback" element={<CreateFeedback/>}/>
        <Route path="/changes" element= {<Change/>}/>
+       <Route path="/feedback_responses" element= {<FeedbackResponse/>}/>
  </Routes>
  </div>
   );

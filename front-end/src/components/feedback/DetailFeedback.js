@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Card, Modal, Typography } from 'antd';
-
+import axios from "../../api/axios";
 const { Text } = Typography;
 
 const DetailModal = ({ feedback, visible, onClose }) => {

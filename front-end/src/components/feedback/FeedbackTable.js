@@ -85,12 +85,24 @@ const FeedbackTable = () => {
     setReplyContent('');
   };
 
-  const handleReplySubmit = () => {
+  const handleReplySubmit = async () => {
     console.log("Phản hồi cho phản ánh có ID:", selectedFeedback.id);
     console.log("Nội dung phản hồi:", replyContent);
-    // Gửi phản hồi đến API tại đây (sử dụng axios.post hoặc phương thức tương tự)
-    setReplyVisible(false);
-    setReplyContent('');
+    
+    try {
+      // Gọi API PUT để cập nhật trạng thái thành "Đã xử lý"
+      await axios.put(`/feedbacks/${selectedFeedback.id}`, { status: 'Đã xử lý' });
+      
+      setReplyVisible(false);
+      setReplyContent('');
+      // Cập nhật lại danh sách phản hồi
+      fetchFeedbacks();
+      
+      
+    } catch (error) {
+      console.error('Error updating feedback status:', error);
+      // Xử lý lỗi nếu cần
+    }
   };
 
   const columns = [

@@ -175,7 +175,6 @@ const UpdateFeedbackModal = ({ fetchFeedbacks, visible, feedback, onClose }) => 
           ]}
         >
           <Select placeholder="Chọn trạng thái">
-            <Option value="Đã xử lý">Đã xử lý</Option>
             <Option value="Đang xử lý">Đang xử lý</Option>
             <Option value="Đã tiếp nhận">Đã tiếp nhận</Option>
             {/* Other status options */}

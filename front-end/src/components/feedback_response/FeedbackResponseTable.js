@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Table, Space, message, Button, Tooltip, Select} from 'antd';
 import { EditOutlined, DeleteOutlined, CommentOutlined } from '@ant-design/icons';
 import axios from "../../api/axios";
+import DetailResponseModal from './DetailResponseModal';
 import UpdateResponseModal from './UpdateResponseModal';
 import DeleteResponseModal from './DeleteResponseModal';
-
 
 const {Option} = Select;
  
@@ -17,10 +17,10 @@ const ResponseTable = () => {
 
   const fetchResponses = async () => {
     try {
-      const response = await axios.get('/feedback_responses'); // Điều chỉnh endpoint API tương ứng
-      setResponses(response.data);
+      const res = await axios.get('/feedback_responses'); // Điều chỉnh endpoint API tương ứng
+      setResponses(res.data);
     } catch (error) {
-      console.error('Error fetching feedbacks:', error);
+      console.error('Error fetching responses:', error);
     }
   };
   useEffect(() => {
@@ -34,8 +34,8 @@ const ResponseTable = () => {
     setUpdateModalVisible(true);
   };
 
-  const handleDelete = (feedback) => {
-    setSelectedResponse(feedback);
+  const handleDelete = (response) => {
+    setSelectedResponse(response);
     setDeleteModalVisible(true);
   };
 
@@ -57,42 +57,44 @@ const ResponseTable = () => {
   };
   
   const handleUpdateSuccess = (updatedResponse) => {
-    const updatedFeedbacks = responses.map((response) => {
+    const updatedResponses = responses.map((response) => {
       if (response.id === updatedResponse.id) {
         return updatedResponse;
       }
       return response;
     });
 
-    setResponses(updatedFeedbacks);
+    setResponses(updatedResponse);
     // setModalVisible(false);
     setSelectedResponse(updatedResponse);
   };
+
+
   const columns = [
-     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: "Feedback ID",
-      dataIndex: "feedback_id",
-      key: "feedback_id",
+      title: 'Feedback ID',
+      dataIndex: 'feedback_id',
+      key: 'feedback_id',
     },
     {
-      title: "Người phản hồi",
-      dataIndex: "responder",
-      key: "responder",
+      title: 'Người phản hồi',
+      dataIndex: 'responder',
+      key: 'responder',
     },
     {
-        title: "Nội dung phản hồi",
-        dataIndex: "response_content",
-        key: "response_content",
-      },
+      title: 'Nội dung phản hồi',
+      dataIndex: 'response_content',
+      key: 'response_content',
+    },
     {
-      title: "Ngày phản hồi",
-      dataIndex: "response_date",
-      key: "response_date",
+      title: 'Ngày phản hồi',
+      dataIndex: 'response_date',
+      key: 'response_date',
     },
     {
       title: 'Hành động',
@@ -134,16 +136,17 @@ const ResponseTable = () => {
         })}
 
       />
-      {/* <DetailModal
+      <DetailResponseModal
         visible={modalVisible}
-        feedback={selectedResponse}
+        response={selectedResponse}
+        feedbackId={selectedResponse?.feedback_id}
         onClose={() => setModalVisible(false)}
-      /> */}
+      />
 
       {selectedResponse && (
         <UpdateResponseModal
           visible={updateModalVisible}
-          feedback={selectedResponse}
+          response={selectedResponse}
           onClose={() => setUpdateModalVisible(false)}
           updateSuccess={handleUpdateSuccess}
           fetchResponses={fetchResponses}
@@ -153,7 +156,7 @@ const ResponseTable = () => {
       {selectedResponse && (
         <DeleteResponseModal
           visible={deleteModalVisible}
-          feedback={selectedResponse}
+          response={selectedResponse}
           onCancel={handleDeleteCancel}
           onDeleteSuccess={handleDeleteSuccess}
           fetchResponses={fetchResponses}

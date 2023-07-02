@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, Form, Input, Button, message, DatePicker } from 'antd';
-import moment from "moment";
-import axios from "../../api/axios";
+import moment from 'moment';
+import axios from '../../api/axios';
 
 const { TextArea } = Input;
 
@@ -12,17 +12,17 @@ const ReplyInput = ({ feedbackId, visible, onCancel, onSubmit }) => {
     try {
       const values = await form.validateFields();
 
-      const formattedDate = moment(values.response_date).format("YYYY-MM-DD");
+      const formattedDate = moment(values.response_date).format('YYYY-MM-DD');
 
       const feedbackResponse = {
         feedback_id: feedbackId,
         responder: values.responder,
         response_content: values.response_content,
-        response_date: formattedDate
+        response_date: formattedDate,
       };
 
       // Gửi phản hồi đến API
-      const response = await axios.post("/feedback_responses", feedbackResponse);
+      const response = await axios.post('/feedback_responses', feedbackResponse);
 
       if (response.status === 201) {
         message.success('Cập nhật phản hồi thành công');
@@ -46,7 +46,7 @@ const ReplyInput = ({ feedbackId, visible, onCancel, onSubmit }) => {
         <Button key="cancel" onClick={onCancel}>
           Hủy bỏ
         </Button>,
-        <Button key="submit" className="bg-blue-500 text-white"type="primary" onClick={handleSubmit}>
+        <Button key="submit" className ="bg-blue-500" type="primary" onClick={handleSubmit}>
           Cập nhật
         </Button>,
       ]}
@@ -86,7 +86,7 @@ const ReplyInput = ({ feedbackId, visible, onCancel, onSubmit }) => {
             },
           ]}
         >
-          <DatePicker/>
+          <DatePicker />
         </Form.Item>
       </Form>
     </Modal>
