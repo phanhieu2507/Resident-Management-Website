@@ -4,23 +4,28 @@ import { Route,Routes } from 'react-router-dom';
 import Home from './pages/home/home';
 import CreateHousehold from './pages/home/create/create';
 import Feedback from './pages/feedback/feedback';
-import FeedbackResponse from './pages/feedback_response'
 import Navbar from './components/navbar';
-import ResidentTable from './components/resident/ResidentTable';
-import CreateResident from './pages/home/create/createResident';
+import Resident from './pages/resident/resident';
+import CreateResident from './pages/resident/create/create';
 import CreateFeedback from './pages/feedback/create/create';
+import Change from './pages/change/change';
+import NotFound from './pages/404/404';
+import Login from './pages/login/login';
 function App() {
   return (
     <div>
-      <Navbar/>
  <Routes>
-       <Route path="/" element={<Home/>}/>
+ <Route path="*" element={<NotFound />} />
+
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/' element={<Login/>}/>
+       <Route path="/home" element={<Home/>}/>
        <Route path="/createhousehold" element={<CreateHousehold/>}/>
-       <Route path="/createresident" element={<CreateResident/>}/>
+       <Route path="/residents/create" element={<CreateResident/>}/>
        <Route path="/feedback" element={<Feedback/>}/>
-       <Route path="/feedback_responses" element={<FeedbackResponse/>}/>
-       <Route path="/resident" element={<ResidentTable/>}/>
+       <Route path="/residents" element={<Resident/>}/>
        <Route path="create_feedback" element={<CreateFeedback/>}/>
+       <Route path="/changes" element= {<Change/>}/>
  </Routes>
  </div>
   );

@@ -31,7 +31,6 @@ const UpdateHouseholdModal = ({ household, visible, onCancel, onUpdate }) => {
 
     }
   };
-
   return (
     <Modal
       title="Cập nhật thông tin hộ khẩu"

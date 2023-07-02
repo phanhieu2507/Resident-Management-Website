@@ -17,27 +17,20 @@ const CreateResident = () => {
       full_name: values.full_name,
       gender :values.gender,
       date_of_birth :moment(values.date_of_birth).format("YY-MM-DD"),
+      place_of_birth: values.place_of_birth,
+      ethnicity :values.ethnicity,
       date_of_registration :moment(values.date_of_registration).format("YY-MM-DD"),
       occupation : values.occupation,
       id_card_number:values.id_card_number,
+      date_of_issue:moment(values.date_of_issue).format("YY-MM-DD"),
+      place_of_issue:values.place_of_issue,
       status:values.status,
       current_address: values.current_address,
       previous_address: values.previous_address,
       relationship_with_head: values.relationship_with_head,
-
-
-
     }
     try {
-      // const formattedRegistrationDate = moment(
-      //   values.household_id
-      // );
-      
-      // const household = {
-      //   ...values,
-      //   date_of_registration: formattedRegistrationDate,
-      //   members: membersArray,
-      // };
+   
       // Gửi yêu cầu POST đến API
       const response = await axios.post("residents", resident);
 
@@ -51,7 +44,7 @@ const CreateResident = () => {
         // Reset form
         form.resetFields();
         // Điều hướng trở lại trang danh sách hộ khẩu
-        navigate("/");
+        navigate("/residents");
       } else {
         // Xử lý khi gặp lỗi khác
         notification.error({
@@ -71,7 +64,7 @@ const CreateResident = () => {
 
   return (
     <div>
-      {/* <Navbar /> */}
+      <Navbar />
 
       <div className="container mx-auto p-4">
         <h1 className="text-3xl font-bold mb-4">Tạo mới nhân khẩu</h1>
@@ -117,7 +110,7 @@ const CreateResident = () => {
             </Form.Item>
 
             <Form.Item
-              name="date_of_registration"
+              name="place_of_birth"
               label="Nơi sinh"
               rules={[
                 { required: true, message: "Vui lòng nhập nơi sinh" },
@@ -125,6 +118,13 @@ const CreateResident = () => {
             >
               <Input />
             </Form.Item>
+            <Form.Item
+                name={`ethnicity`}
+                label="Dân Tộc"
+                rules={[{ required: true, message: "Vui lòng nhập dân tộc" }]}
+              >
+                <Input />
+              </Form.Item>
             <Form.Item
               name="occupation"
               label="Nghề nghiệp"
@@ -137,10 +137,24 @@ const CreateResident = () => {
             <Form.Item
               name="id_card_number"
               label="CCCD"
-              
+              rules={[{ required: true, message: "Vui lòng nhập CCCD" }]}
             >
               <Input />
             </Form.Item>
+            <Form.Item
+                name={`date_of_issue`}
+                label="Ngày Cấp"
+                rules={[{ required: true, message: "Vui lòng chọn ngày cấp" }]}
+              >
+                <DatePicker />
+              </Form.Item>
+              <Form.Item
+                name={`place_of_issue`}
+                label="Nơi Cấp"
+                rules={[{ required: true, message: "Vui lòng nhập nơi cấp" }]}
+              >
+                <Input />
+                </Form.Item>
             <Form.Item
               name="status"
               label="Tình trạng"

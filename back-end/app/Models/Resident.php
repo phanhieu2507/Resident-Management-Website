@@ -20,6 +20,7 @@ class Resident extends Model
         'id_card_number',
         'date_of_issue',
         'place_of_issue',
+        'status',
         'current_address',
         'previous_address',
         'relationship_with_head',
