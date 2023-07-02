@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
 } from "antd";
-import Navbar from "../../components/navbar";
-import HouseholdTable from "../../components/home/HouseholdTable";
+import Navbar from "../navbar";
+import HouseholdTable from "../home/HouseholdTable";
 import { useNavigate } from "react-router-dom";
 import Resident from "./Resident";
 const Home = () => {

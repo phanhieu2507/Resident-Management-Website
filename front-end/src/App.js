@@ -4,9 +4,9 @@ import { Route,Routes } from 'react-router-dom';
 import Home from './pages/home/home';
 import CreateHousehold from './pages/home/create/create';
 import Feedback from './pages/feedback/feedback';
-import FeedbackResponse from './components/home/FeedbackResponse';
+import FeedbackResponse from './pages/feedback_response'
 import Navbar from './components/navbar';
-import ResidentTable from './components/home/ResidentTable';
+import ResidentTable from './components/resident/ResidentTable';
 import CreateResident from './pages/home/create/createResident';
 import CreateFeedback from './pages/feedback/create/create';
 function App() {

@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Space, message, Button} from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Space, message, Button, Tooltip, Select} from 'antd';
+import { EditOutlined, DeleteOutlined, CommentOutlined } from '@ant-design/icons';
 import axios from "../../api/axios";
 import DetailModal from './DetailFeedback'
 import UpdateFeedbackModal from './UpdateFeedbackModal';
 import DeleteFeedbackModal from './DeleteFeedbackModal';
+import ReplyInput from './ReplyInput';
+
+const {Option} = Select;
+ 
 const FeedbackTable = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
-  const [updateSuccess, setUpdateSuccess] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [replyVisible, setReplyVisible] = useState(false);
+  const [statusFilter, setStatusFilter] = useState(null);
+  const [replyContent, setReplyContent] = useState('');
+
 
   const fetchFeedbacks = async () => {
     try {
@@ -68,6 +74,25 @@ const FeedbackTable = () => {
     setSelectedFeedback(updatedFeedback);
   };
 
+   const handleReply = (record) => {
+    setSelectedFeedback(record);
+    setReplyVisible(true);
+  };
+
+  const handleReplyCancel = () => {
+    setSelectedFeedback(null);
+    setReplyVisible(false);
+    setReplyContent('');
+  };
+
+  const handleReplySubmit = () => {
+    console.log("Phản hồi cho phản ánh có ID:", selectedFeedback.id);
+    console.log("Nội dung phản hồi:", replyContent);
+    // Gửi phản hồi đến API tại đây (sử dụng axios.post hoặc phương thức tương tự)
+    setReplyVisible(false);
+    setReplyContent('');
+  };
+
   const columns = [
     {
       title: 'ID',
@@ -108,6 +133,12 @@ const FeedbackTable = () => {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
+      filters: [
+        { text: 'Đã xử lý', value: 'Đã xử lý' },
+        { text: 'Đang xử lý', value: 'Đang xử lý' },
+        { text: 'Đã tiếp nhận', value: 'Đã tiếp nhận' },
+      ],
+      onFilter: (value, record) => record.status === value,
     },
     {
       title: 'Hành động',
@@ -115,20 +146,34 @@ const FeedbackTable = () => {
       render: (text, record) => (
         <div>
           <Space>
-            <EditOutlined
-              onClick={(e) => {
-                e.stopPropagation();
-                handleEdit(record);
-              }}
-              style={{ marginRight: 8 }}
-            />
-            <DeleteOutlined
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(record);
-              }}
-              style={{ color: 'red' }}
-            />
+            <Tooltip title="Chỉnh sửa">
+              <EditOutlined
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEdit(record);
+                }}
+                style={{ marginRight: 8 }}
+              />
+            </Tooltip>
+            {record.status !== 'Đã xử lý' && (
+              <Tooltip title="Phản hồi">
+                <CommentOutlined
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleReply(record);
+                  }}
+                />
+              </Tooltip>
+            )}
+            <Tooltip title="Xóa">
+              <DeleteOutlined
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(record);
+                }}
+                style={{ color: 'red' }}
+              />
+            </Tooltip>
           </Space>
         </div>
       ),
@@ -143,6 +188,7 @@ const FeedbackTable = () => {
         onRow={(record) => ({
           onClick: () => handleEditClick(record),
         })}
+
       />
       <DetailModal
         visible={modalVisible}
@@ -167,6 +213,17 @@ const FeedbackTable = () => {
           onCancel={handleDeleteCancel}
           onDeleteSuccess={handleDeleteSuccess}
           fetchFeedBacks={fetchFeedbacks}
+        />
+      )}
+
+      {replyVisible && (
+        <ReplyInput
+          value={replyContent}
+          onChange={(e) => setReplyContent(e.target.value)}
+          feedbackId={selectedFeedback.id}
+          visible={replyVisible}
+          onSubmit={handleReplySubmit}
+          onCancel={handleReplyCancel}
         />
       )}
 

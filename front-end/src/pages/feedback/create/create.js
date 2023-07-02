@@ -40,7 +40,9 @@ const CreateFeedback = () => {
       }
     } catch(error){
       notification.error({
-        message: "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+        message: "Đã xảy ra lỗi. Vui lòng thử lại sau",
+        duration: 2,
+        closable: false
       });
       console.error(error);
     }
