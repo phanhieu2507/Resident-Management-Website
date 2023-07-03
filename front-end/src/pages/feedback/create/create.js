@@ -3,7 +3,6 @@ import { Form, Input, DatePicker, Button, notification, Select } from "antd";
 import moment from "moment";
 import axios from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../../components/navbar";
 
 const CreateFeedback = () => {
   const navigate = useNavigate();
@@ -41,14 +40,15 @@ const CreateFeedback = () => {
       }
     } catch(error){
       notification.error({
-        message: "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+        message: "Đã xảy ra lỗi. Vui lòng thử lại sau",
+        duration: 2,
+        closable: false
       });
       console.error(error);
     }
   };
   return (
     <>
-    <Navbar />
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Thêm ý kiến/phản ánh mới</h1>
     <Form form={form} onFinish={handleCreateFormSubmit}>
