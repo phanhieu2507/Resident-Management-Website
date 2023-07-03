@@ -5,7 +5,6 @@ import axios from "../../api/axios";
 import ResidentDetailsModal from "../resident/ResidentDetailModal"
 import UpdateResidentModal from "../resident/UpdateResidentModal";
 const ResidentTable = ({ data,fetchData }) => {
-  const [editMethodVisible, setEditMethodVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedResident, setSelectedResident] = useState(null);
   
@@ -20,8 +19,8 @@ const ResidentTable = ({ data,fetchData }) => {
     },
     {
       title: "Mã nhà",
-      dataIndex: "Resident_id",
-      key: "Resident_id",
+      dataIndex: "household_id",
+      key: "household_id",
     },
     {
       title: "Tên",

@@ -11,6 +11,7 @@ import CreateFeedback from './pages/feedback/create/create';
 import Change from './pages/change/change';
 import NotFound from './pages/404/404';
 import Login from './pages/login/login';
+import Dashboard from './pages/dashboard/dashboard';
 function App() {
   return (
     <div>
@@ -26,6 +27,7 @@ function App() {
        <Route path="/residents" element={<Resident/>}/>
        <Route path="create_feedback" element={<CreateFeedback/>}/>
        <Route path="/changes" element= {<Change/>}/>
+      <Route path="/dashboard" element={<Dashboard/>}/>
  </Routes>
  </div>
   );

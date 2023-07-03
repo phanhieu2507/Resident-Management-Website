@@ -25,7 +25,7 @@ const Navbar = () => {
           Phản hồi
         </Menu.Item>
         <Menu.Item key="6" icon={<BarChartOutlined />}>
-          Thống kê
+        <Link to="/dashboard">Thống kê</Link>
         </Menu.Item>
       </Menu>
     </Header>
