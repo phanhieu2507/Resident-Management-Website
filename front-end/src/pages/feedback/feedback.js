@@ -1,7 +1,7 @@
 import React from 'react';
-import Navbar from '../../components/navbar';
 import FeedbackTable from '../../components/feedback/FeedbackTable';
 import CreateFeedbackPage from '../../components/feedback/CreateFeedbackModal';
+import Navbar from '../../components/navbar'
 import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 
