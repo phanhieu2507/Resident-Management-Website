@@ -85,16 +85,17 @@ class HouseholdController extends Controller
 
     public function destroy($id)
     {
-        
-    $household = Household::findOrFail($id);
-
-    // Xóa tất cả các thành viên trong hộ khẩu
-    $household->residents()->delete();
-
-    // Xóa hộ khẩu
-    $household->delete();
-
-    return response()->json(null, 204);
+        $household = Household::findOrFail($id);
+    
+        $household->residents()->get()->each(function ($resident) {
+            $resident->changes()->delete();
+        });
+    
+        $household->residents()->delete();
+    
+        $household->delete();
+    
+        return response()->json(null, 204);
     }
 
     public function splitHousehold(Request $request)

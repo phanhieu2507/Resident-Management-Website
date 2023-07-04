@@ -35,6 +35,7 @@ class ResidentController extends Controller
     public function destroy($id)
     {
         $resident = Resident::findOrFail($id);
+        $resident -> changes () -> delete();
         $resident->delete();
         return response()->json(null, 204);
     }

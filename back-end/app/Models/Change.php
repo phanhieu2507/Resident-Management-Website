@@ -16,4 +16,8 @@ class Change extends Model
         'new_value',
         'notes',
     ];
+    public function resident()
+    {
+        return $this->belongsTo(Resident::class);
+    }
 }

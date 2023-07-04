@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Table, notification, Modal,Button } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, notification, Modal,Button,Input } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "../../api/axios";
 import HouseholdDetailsModal from "../../components/home/HouseholdDetailsModal";
@@ -15,6 +15,8 @@ const HouseholdTable = ({ data,fetchData }) => {
   const [updateModalVisible,setUpdateModalVisible] = useState(false);
   const [selectedHouseholdMember, setSelectedHouseholdMember] = useState(null);
   const [selectedHouseholdInfo, setSelectedHouseholdInfo] = useState(null);
+  const [modifiedData, setModifiedData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // State để lưu giá trị của thanh tìm kiếm
   const navigate = useNavigate();
   const columns = [
     {
@@ -44,8 +46,8 @@ const HouseholdTable = ({ data,fetchData }) => {
     },
     {
       title: "Chủ Hộ",
-      dataIndex: "head_of_household",
-      key: "head_of_household",
+      dataIndex: "head",
+      key: "head",
     },
     {
       title: "Kích Thước Hộ Gia Đình",
@@ -79,6 +81,18 @@ const HouseholdTable = ({ data,fetchData }) => {
       ),
     },
   ];
+  useEffect(() => {
+  setModifiedData(data.map(item => {
+    // Lấy id của head of household từ object hiện tại
+    const headOfHouseholdId = item.head_of_household;
+  
+    // Tìm resident có id bằng headOfHouseholdId trong mảng residents của object hiện tại
+    const headOfHousehold = item.residents.find(resident => resident.id == headOfHouseholdId);
+  
+    // Thêm trường "head" với giá trị là full_name của head of household vào object hiện tại
+    return { ...item, head: headOfHousehold?.full_name };
+  }))
+  },[data])
  
   const handleEditClick = (record) => {
     setSelectedHouseholdMember(record.residents)
@@ -213,12 +227,28 @@ const HouseholdTable = ({ data,fetchData }) => {
         // Thực hiện các hành động cần thiết khi xảy ra lỗi
       });
   };
+
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+  };
+
+  // Lọc danh sách các hộ khẩu dựa trên tên chủ hộ
+  const filteredData = modifiedData.filter((item) =>
+    item.head.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   
   return (
     <>
+       <Input.Search
+        placeholder="Tìm kiếm theo tên chủ hộ"
+        allowClear
+        enterButton
+        onChange={(e) => handleSearch(e.target.value)} 
+        style={{ marginBottom: 16 }}
+      />
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={filteredData}
         onRow={(record) => ({
           onClick: () => handleRowClick(record),
         })}

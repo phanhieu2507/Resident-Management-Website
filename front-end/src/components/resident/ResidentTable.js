@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, notification, Modal,Button } from "antd";
+import { Table, notification, Modal,Button, Input } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "../../api/axios";
 import ResidentDetailsModal from "../resident/ResidentDetailModal"
@@ -11,6 +11,7 @@ const ResidentTable = ({ data,fetchData }) => {
   const [updateModalVisible,setUpdateModalVisible] = useState(false);
 
   const [selectedResidentInfo, setSelectedResidentInfo] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
   const columns = [
     {
       title: "ID",
@@ -179,11 +180,30 @@ const ResidentTable = ({ data,fetchData }) => {
       });
   };
   
+  const handleSearch = () => {
+    const filteredData = data.filter((item) => {
+      const nameMatch =
+        item.full_name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.full_name.includes(searchValue);
+      const cccdMatch =
+        item.id_card_number.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.id_card_number.includes(searchValue);
+      return nameMatch || cccdMatch; // Thay đổi ở đây, sử dụng OR thay vì AND
+    });
+    return filteredData;
+  };
+
   return (
     <>
+     <Input.Search
+        placeholder="Tìm kiếm theo tên hoặc CCCD"
+        allowClear
+        onChange={(e) => setSearchValue(e.target.value)}
+        style={{ marginBottom: 16 }}
+      />
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={handleSearch()}
         onRow={(record) => ({
           onClick: () => handleRowClick(record),
         })}

@@ -29,4 +29,9 @@ class Resident extends Model
     {
         return $this->belongsTo(Household::class);
     }
+
+    public function changes()
+    {
+        return $this->hasMany(Change::class);
+    }
 }
