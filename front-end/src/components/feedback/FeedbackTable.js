@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Space, message, Button, Tooltip, Select, Checkbox} from 'antd';
-import { EditOutlined, DeleteOutlined, CommentOutlined } from '@ant-design/icons';
+import { Table, Space, message, Button, Tooltip, Select, Checkbox, Input} from 'antd';
+import { EditOutlined, DeleteOutlined, CommentOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from "../../api/axios";
 import DetailModal from './DetailFeedback'
 import UpdateFeedbackModal from './UpdateFeedbackModal';
@@ -18,7 +18,7 @@ const FeedbackTable = () => {
   const [replyVisible, setReplyVisible] = useState(false);
   const [statusFilter, setStatusFilter] = useState(null);
   const [replyContent, setReplyContent] = useState('');
-
+  const [searchText, setSearchText] = useState('');
 
   const fetchFeedbacks = async () => {
     try {
@@ -105,6 +105,15 @@ const FeedbackTable = () => {
     }
   };
 
+  const handleSearch = (value) => {
+    setSearchText(value);
+  }
+
+  const filteredFeedbacks = feedbacks.filter((feedback) =>
+    Object.values(feedback).some((fieldValue) =>
+      String(fieldValue).toLowerCase().includes(searchText.toLowerCase())
+    )
+  );
   const columns = [
     {
       title: 'ID',
@@ -212,8 +221,16 @@ const FeedbackTable = () => {
 
   return (
     <>
+        <Input.Search
+          placeholder="Tìm kiếm"
+          value={searchText}
+          onChange={(e) => handleSearch(e.target.value)}
+          onSearch={handleSearch}
+          style={{ marginBottom: 16}}
+        />
+        
         <Table
-        dataSource={feedbacks}
+        dataSource={filteredFeedbacks}
         columns={columns}
         onRow={(record) => ({
           onClick: () => handleEditClick(record),

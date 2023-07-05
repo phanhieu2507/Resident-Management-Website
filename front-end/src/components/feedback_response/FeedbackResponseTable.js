@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Space, message, Button, Tooltip, Select} from 'antd';
+import { Table, Space, message, Button, Tooltip, Select, Input} from 'antd';
 import { EditOutlined, DeleteOutlined, CommentOutlined } from '@ant-design/icons';
 import axios from "../../api/axios";
 import DetailResponseModal from './DetailResponseModal';
@@ -14,6 +14,7 @@ const ResponseTable = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [searchText, setSearchText] = useState('');
 
   const fetchResponses = async () => {
     try {
@@ -68,6 +69,16 @@ const ResponseTable = () => {
     // setModalVisible(false);
     setSelectedResponse(updatedResponse);
   };
+
+  const handleSearch = (value) => {
+    setSearchText(value);
+  }
+
+  const filteredResponses = responses.filter((response) =>
+    Object.values(response).some((fieldValue) =>
+      String(fieldValue).toLowerCase().includes(searchText.toLowerCase())
+    )
+  );
 
 
   const columns = [
@@ -128,8 +139,16 @@ const ResponseTable = () => {
 
   return (
     <>
+      <Input.Search
+          placeholder="Tìm kiếm"
+          value={searchText}
+          onChange={(e) => handleSearch(e.target.value)}
+          onSearch={handleSearch}
+          style={{ marginBottom: 16}}
+        />
+
         <Table
-        dataSource={responses}
+        dataSource={filteredResponses}
         columns={columns}
         onRow={(record) => ({
           onClick: () => handleEditClick(record),
