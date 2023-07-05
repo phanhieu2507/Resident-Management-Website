@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Form, Input, Button, Typography } from "antd";
+import { Layout, Form, Input, Button, Typography, notification } from "antd";
 import {
   UserOutlined,
   LockOutlined,
@@ -17,8 +17,13 @@ const Login = () => {
     console.log(values);
     if (values.email ==="admin@gmail.com" && values.password === "123456") {
         navigate('/home');
+        notification.success({
+          message: "Đăng nhập thành công",
+        });
     
-  }else (navigate('/login'))
+  }else (
+    navigate('/login')
+  )
 }
 
   return (

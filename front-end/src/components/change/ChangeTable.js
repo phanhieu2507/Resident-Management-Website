@@ -16,6 +16,11 @@ const ChangeTable = ({ data,fetchData }) => {
         key: "id",
     },
     {
+      title: "Mã hộ khẩu",
+      dataIndex: "household_id",
+      key: "household_id",
+  },
+    {
         title: "Mã nhân khẩu",
         dataIndex: "resident_id",
         key: "resident_id",

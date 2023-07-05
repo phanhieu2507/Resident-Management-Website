@@ -76,6 +76,7 @@ const HouseholdTable = ({ data,fetchData }) => {
               handleDelete(record);
             }}
             danger
+            style={{ color: 'red' }}
           />
         </div>
       ),
@@ -234,15 +235,16 @@ const HouseholdTable = ({ data,fetchData }) => {
 
   // Lọc danh sách các hộ khẩu dựa trên tên chủ hộ
   const filteredData = modifiedData.filter((item) =>
-    item.head.toLowerCase().includes(searchTerm.toLowerCase())
+    item.head?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
+
+ 
   
   return (
     <>
        <Input.Search
         placeholder="Tìm kiếm theo tên chủ hộ"
         allowClear
-        enterButton
         onChange={(e) => handleSearch(e.target.value)} 
         style={{ marginBottom: 16 }}
       />

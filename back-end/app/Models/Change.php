@@ -11,13 +11,11 @@ class Change extends Model
 
     protected $fillable = [
         'resident_id',
+        'household_id',
         'change_type',
         'change_date',
         'new_value',
         'notes',
     ];
-    public function resident()
-    {
-        return $this->belongsTo(Resident::class);
-    }
+   
 }

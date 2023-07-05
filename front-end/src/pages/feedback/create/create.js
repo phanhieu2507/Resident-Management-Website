@@ -3,6 +3,7 @@ import { Form, Input, DatePicker, Button, notification, Select } from "antd";
 import moment from "moment";
 import axios from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../../components/navbar";
 
 const CreateFeedback = () => {
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ const CreateFeedback = () => {
   };
   return (
     <>
+    <Navbar/>
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Thêm ý kiến/phản ánh mới</h1>
     <Form form={form} onFinish={handleCreateFormSubmit}>

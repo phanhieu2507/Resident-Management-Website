@@ -15,8 +15,8 @@ class CreateChangesTable extends Migration
     {
         Schema::create('changes', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('resident_id');
-            $table->foreign('resident_id')->references('id')->on('residents');
+            $table->unsignedInteger('resident_id')->nullable();
+            $table->unsignedInteger('household_id')->nullable();
             $table->string('change_type');
             $table->date('change_date');
             $table->string('new_value')->nullable();

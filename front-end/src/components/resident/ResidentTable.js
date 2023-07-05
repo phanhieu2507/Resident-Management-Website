@@ -92,6 +92,7 @@ const ResidentTable = ({ data,fetchData }) => {
               handleDelete(record);
             }}
             danger
+            style={{ color: 'red' }}
           />
         </div>
       ),

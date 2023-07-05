@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Change;
 use App\Models\Household;
 use App\Models\Resident;
 use Illuminate\Http\Request;
@@ -64,7 +65,11 @@ class HouseholdController extends Controller
         $household->household_size = count($members);
         
         $household->save();
-
+        $change = new Change();
+        $change->household_id = $household->id;
+        $change->change_type = 'tạo hộ mới';
+        $change->change_date = date('Y-m-d'); // Ngày hôm nay
+        $change->save();
         // Phản hồi thành công
         return response()->json(['message' => 'Thêm mới hộ khẩu thành công'], 201);
     
@@ -79,22 +84,36 @@ class HouseholdController extends Controller
     public function update(Request $request, $id)
     {
         $household = Household::findOrFail($id);
+        foreach ($request->all() as $key => $value) {
+            if ($household->{$key} != $value) {
+                $change = new Change();
+                $change->household_id = $household->id;
+                $change->change_type = 'cập nhật hộ khẩu';
+                $change->change_date = date('Y-m-d'); // Ngày hôm nay
+                $change->new_value = $value;
+                $change->notes = 'Cập nhật thông tin ' . $key;
+                $change->save();
+            }
+        }
         $household->update($request->all());
+        $change = new Change();
         return response()->json($household, 200);
     }
 
     public function destroy($id)
     {
         $household = Household::findOrFail($id);
-    
-        $household->residents()->get()->each(function ($resident) {
-            $resident->changes()->delete();
-        });
-    
         $household->residents()->delete();
-    
-        $household->delete();
-    
+        
+        
+        $change = new Change();
+                $change->household_id = $household->id;
+                $change->change_type = 'xóa hộ khẩu';
+                $change->change_date = date('Y-m-d'); // Ngày hôm nay
+                $change->notes = 'xóa hộ khẩu cùng tất cả thành viên';
+                $change->save();
+
+                $household->delete();
         return response()->json(null, 204);
     }
 
@@ -136,6 +155,12 @@ class HouseholdController extends Controller
     $household->head_of_household = $newHeadOfNewHouseholdId;
     $household->household_size = count($members) - $oldHouseholdSize;
     $household->date_of_registration = $newHouseholdData['date_of_registration'];
+    $change = new Change();
+    $change->household_id = 1;
+    $change->change_type = 'tách hộ khẩu';
+    $change->change_date = date('Y-m-d'); // Ngày hôm nay
+    $change->notes = 'tách ' . count($members) - $oldHouseholdSize . ' thành viên';
+    $change->save();
     $household->save();
 
     // Tìm và cập nhật household_id cho các thành viên đã chọn
@@ -147,7 +172,7 @@ class HouseholdController extends Controller
     
     Resident::whereIn('id', $memberIds)
         ->update(['household_id' => $household->id]);
-    
+     
 
     // Trả về phản hồi thành công
     return response()->json(['message' => 'Tách hộ khẩu thành công']);

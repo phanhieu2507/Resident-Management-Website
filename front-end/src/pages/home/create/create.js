@@ -52,7 +52,7 @@ const CreateHousehold = () => {
         // Reset form
         form.resetFields();
         // Điều hướng trở lại trang danh sách hộ khẩu
-        navigate("/");
+        navigate("/home");
       } else {
         // Xử lý khi gặp lỗi khác
         notification.error({
